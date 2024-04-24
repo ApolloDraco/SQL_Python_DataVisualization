@@ -1,0 +1,10 @@
+-- SQL query to fetch data from the database
+SELECT
+    country,
+    SUM(revenue) AS total_revenue
+FROM
+    sales
+GROUP BY
+    country;
+
+-- Output the data in a format that can be easily used by Python
