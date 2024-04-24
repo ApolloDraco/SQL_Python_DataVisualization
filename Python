@@ -1,0 +1,38 @@
+import matplotlib.pyplot as plt
+import seaborn as sns
+import pandas as pd
+import psycopg2  # or any other database connector library
+
+# Connect to the database
+conn = psycopg2.connect(
+    dbname="your_database",
+    user="your_username",
+    password="your_password",
+    host="your_host",
+    port="your_port"
+)
+
+# Execute the SQL query
+query = """
+    SELECT
+        country,
+        SUM(revenue) AS total_revenue
+    FROM
+        sales
+    GROUP BY
+        country;
+"""
+df = pd.read_sql(query, conn)
+
+# Close the database connection
+conn.close()
+
+# Create a bar plot using matplotlib
+plt.figure(figsize=(10, 6))
+sns.barplot(x="country", y="total_revenue", data=df)
+plt.title("Total Revenue by Country")
+plt.xlabel("Country")
+plt.ylabel("Total Revenue")
+plt.xticks(rotation=45)
+plt.tight_layout()
+plt.show()
